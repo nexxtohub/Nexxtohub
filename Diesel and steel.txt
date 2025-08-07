@@ -1,0 +1,156 @@
+-- NexxtoHub Optimized Script (No Lag Version)
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "NexxtoHub",
+   Icon = 0,
+   LoadingTitle = "Loading NexxtoHub...",
+   LoadingSubtitle = "Optimized by Nexxto",
+   ShowText = "NexxtoHub",
+   Theme = "Default",
+   ToggleUIKeybind = "K",
+   ConfigurationSaving = {
+      Enabled = true,
+      FileName = "NexxtoHub"
+   },
+   Discord = {
+      Enabled = true,
+      Invite = "96UNaAuA",
+      RememberJoins = true
+   },
+   KeySystem = false
+})
+
+local JeepEnhanceTab = Window:CreateTab("🚙 Jeep Enhance", 4483362458)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+-- Auto Drive
+local autoDriveEnabled = false
+JeepEnhanceTab:CreateToggle({
+    Name = "Auto Drive (towards camera)",
+    CurrentValue = false,
+    Callback = function(enabled)
+        autoDriveEnabled = enabled
+    end,
+})
+RunService:BindToRenderStep("AutoDrive", Enum.RenderPriority.Character.Value, function()
+    if autoDriveEnabled then
+        local character = LocalPlayer.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            local hrp = character.HumanoidRootPart
+            local dir = Camera.CFrame.LookVector * 15 -- Velocity = 15
+            hrp.Velocity = Vector3.new(dir.X, hrp.Velocity.Y, dir.Z)
+        end
+    end
+end)
+
+-- Infinite Fuel
+local infiniteFuel = false
+JeepEnhanceTab:CreateToggle({
+    Name = "Infinite Fuel",
+    CurrentValue = false,
+    Callback = function(enabled)
+        infiniteFuel = enabled
+        task.spawn(function()
+            while infiniteFuel do
+                local character = LocalPlayer.Character
+                if character then
+                    local jeep = character:FindFirstChildWhichIsA("Model")
+                    if jeep then
+                        local fuel = jeep:FindFirstChild("Fuel")
+                        if fuel and fuel:IsA("NumberValue") then
+                            fuel.Value = 9999
+                        end
+                    end
+                end
+                task.wait(1)
+            end
+        end)
+    end,
+})
+
+-- Auto Take Money + Sukli
+local autoBayad = false
+JeepEnhanceTab:CreateToggle({
+    Name = "Auto Take Bayad + Sukli",
+    CurrentValue = false,
+    Callback = function(enabled)
+        autoBayad = enabled
+        task.spawn(function()
+            while autoBayad do
+                for _, gui in ipairs(game:GetDescendants()) do
+                    if gui:IsA("TextButton") then
+                        local text = gui.Text:lower()
+                        if text:find("bayad") or text:find("sukli") or text:find("change") then
+                            pcall(function() gui:Activate() end)
+                        end
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    end,
+})
+
+-- Auto Repair Jeep (only works in repair area)
+local autoRepair = false
+JeepEnhanceTab:CreateToggle({
+    Name = "Auto Repair Jeep (in repair area)",
+    CurrentValue = false,
+    Callback = function(enabled)
+        autoRepair = enabled
+        task.spawn(function()
+            while autoRepair do
+                for _, gui in ipairs(game:GetDescendants()) do
+                    if gui:IsA("TextButton") and gui.Text:lower():find("repair jeep") then
+                        pcall(function() gui:Activate() end)
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    end,
+})
+
+-- Auto Pickup Waiting Passenger
+local autoPickup = false
+JeepEnhanceTab:CreateToggle({
+    Name = "Auto Pickup Passenger",
+    CurrentValue = false,
+    Callback = function(enabled)
+        autoPickup = enabled
+        task.spawn(function()
+            while autoPickup do
+                for _, prompt in ipairs(workspace:GetDescendants()) do
+                    if prompt:IsA("ProximityPrompt") and prompt.ObjectText:lower():find("passenger") then
+                        pcall(function() fireproximityprompt(prompt) end)
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    end,
+})
+
+-- Skip Traffic (Auto Pay Toll)
+local autoSkipTraffic = false
+JeepEnhanceTab:CreateToggle({
+    Name = "Auto Skip Traffic",
+    CurrentValue = false,
+    Callback = function(enabled)
+        autoSkipTraffic = enabled
+        task.spawn(function()
+            while autoSkipTraffic do
+                for _, gui in ipairs(game:GetDescendants()) do
+                    if gui:IsA("TextButton") and gui.Text:lower():find("pay") then
+                        pcall(function() gui:Activate() end)
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    end,
+})
