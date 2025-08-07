@@ -1,0 +1,49 @@
+-- Load Rayfield UI
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+-- Define your actual key
+local CorrectKey = "nonedeviscool"
+
+-- Function: Launch Main Script UI after key is correct
+local function LaunchMainScript()
+    Rayfield:Notify({
+        Title = "Access Granted",
+        Content = "Welcome to the Script 😈",
+        Duration = 5
+    })
+
+    -- Add your main script here
+    Rayfield:CreateWindow({
+        Name = "🔥 Main Script UI",
+        LoadingTitle = "Welcome 😈",
+        LoadingSubtitle = "Powered by NexxtoHub",
+        ConfigurationSaving = {
+            Enabled = false
+        }
+    })
+end
+
+-- Show Key Prompt
+Rayfield:Prompt({
+    Title = "RAYFIELD UI",
+    Subtitle = "KEY SYSTEM",
+    InputPlaceholder = "Enter Key Here",
+    Callback = function(UserKey)
+        if string.lower(UserKey) == string.lower(CorrectKey) then
+            LaunchMainScript()
+        else
+            Rayfield:Notify({
+                Title = "Invalid Key ❌",
+                Content = "Join our Discord to get the key!",
+                Duration = 5
+            })
+        end
+    end
+})
+
+-- Optional: Info for getting the key
+Rayfield:Notify({
+    Title = "HOW TO GET KEY❓",
+    Content = "Join our Discord: https://discord.gg/96UNaAuA (copy this link)",
+    Duration = 10
+})
